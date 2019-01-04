@@ -14,9 +14,7 @@ public class GenericArrayStack<E> implements Stack<E> {
 
   // Returns true if this ArrayStack is empty
   public boolean isEmpty() {
-
     return (top == 0);
-
   }
 
   public void push(E elem) {
@@ -39,6 +37,7 @@ public class GenericArrayStack<E> implements Stack<E> {
   }
 
   public E pop() {
+
     E saved = elems[--top];
     elems[top] = null;
     return saved;
@@ -47,6 +46,5 @@ public class GenericArrayStack<E> implements Stack<E> {
 
   public E peek() {
     return elems[top - 1];
-
   }
 }

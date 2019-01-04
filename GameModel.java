@@ -18,6 +18,7 @@ public class GameModel {
   private int numberOfSteps;
   private int numberUncovered;
   private int widthOfGame;
+  private int numberOfFlags;
 
   /**
    * Constructor to initialize the model to a given size of board.
@@ -30,16 +31,12 @@ public class GameModel {
    */
   public GameModel(int width, int heigth, int numberOfMines) {
 
-    // initializing all needed variables
     this.widthOfGame = width;
     this.heigthOfGame = heigth;
     this.numberOfMines = numberOfMines;
 
     numberOfSteps = 0;
     numberUncovered = 0;
-
-    // creating an instance of the DotInfo class and populating it with mines at
-    // random locations
 
     model = new DotInfo[heigthOfGame][widthOfGame];
 
@@ -54,10 +51,6 @@ public class GameModel {
         model[i][j] = new DotInfo(i, j);
       }
     }
-
-    // Algorithm to calculate the number of Neighbooring Mines efficiently (O(n))
-    // Algorithm: Set of if statements for every possibility
-
     for (int i = 0; i < numberOfMines; i++) {
 
       randomWidth = generator.nextInt(widthOfGame);
@@ -112,9 +105,6 @@ public class GameModel {
    */
   public void reset() {
 
-    // ADD YOU CODE HERE
-
-    // Same thing as in the constructor
     model = new DotInfo[heigthOfGame][widthOfGame];
     numberOfSteps = 0;
     numberUncovered = 0;
@@ -186,7 +176,6 @@ public class GameModel {
    */
   public int getHeigth() {
     return heigthOfGame;
-
   }
 
   /**
@@ -253,7 +242,6 @@ public class GameModel {
    */
   public int getNeighbooringMines(int i, int j) {
     return model[i][j].getNeighbooringMines();
-
   }
 
   /**
@@ -265,7 +253,6 @@ public class GameModel {
   public void uncover(int i, int j) {
     model[i][j].uncover();
     numberUncovered++;
-
   }
 
   /**
@@ -276,7 +263,6 @@ public class GameModel {
    */
   public void click(int i, int j) {
     model[i][j].click();
-
   }
 
   /**
@@ -390,6 +376,67 @@ public class GameModel {
     format += "\n";
 
     return format;
+  }
+
+  /**
+   * returns true if the dot at location (i,j) is flagged, false otherwise
+   *
+   * @param i the x coordinate of the dot
+   * @param j the y coordinate of the dot
+   * @return the status of the dot at location (i,j)
+   */
+
+  // the methods below were added for the purpose of the bonus
+
+  public boolean isFlagged(int i, int j) {
+
+    return model[i][j].isFlagged();
+
+  }
+
+  /**
+   * Sets the status of the dot at location (i,j) to unflagged
+   *
+   * @param i the x coordinate of the dot
+   * @param j the y coordinate of the dot
+   */
+  public void unflag(int i, int j) {
+
+    model[i][j].unflag();
+    numberOfFlags--;
+
+  }
+
+  /**
+   * Sets the status of the dot at location (i,j) to flagged
+   *
+   * @param i the x coordinate of the dot
+   * @param j the y coordinate of the dot
+   */
+  public void flag(int i, int j) {
+
+    model[i][j].flag();
+    numberOfFlags++;
+
+  }
+
+  /**
+   * Getter method for the current number of mines
+   *
+   * @return the current number of mines
+   */
+  public int getNumberOfMines() {
+    return numberOfMines;
+  }
+
+  /**
+   * Getter method for the number of flags
+   *
+   * @return the current number of flags
+   */
+  public int getNumberOfFlags() {
+
+    return numberOfFlags;
   }
 
 }

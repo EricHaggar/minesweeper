@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
 /**
@@ -16,6 +15,7 @@ public class GameView extends JFrame {
   private DotButton[][] board;
   private GameModel gameModel;
   private JLabel nbreOfStepsLabel;
+  private JLabel differenceLabel;
 
   /**
    * Constructor used for initializing the Frame
@@ -32,7 +32,9 @@ public class GameView extends JFrame {
     // initializing variables to be used
     this.gameModel = gameModel;
     board = new DotButton[gameModel.getHeigth()][gameModel.getWidth()];
-    nbreOfStepsLabel = new JLabel("Number of steps: " + gameModel.getNumberOfSteps());
+    nbreOfStepsLabel = new JLabel("Number of steps: " + gameModel.getNumberOfSteps() + ", ");
+    int difference = gameModel.getNumberOfMines() - gameModel.getNumberOfFlags();
+    differenceLabel = new JLabel("Difference between Mines and Flag: " + difference);
 
     // Frame
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,13 +49,14 @@ public class GameView extends JFrame {
     JPanel bottom = new JPanel(new FlowLayout(FlowLayout.CENTER));
     bottom.setBackground(Color.WHITE);
     bottom.add(nbreOfStepsLabel);
+    bottom.add(differenceLabel);
 
     // Populate the board with DotButton instances and addActionListener for each
     // button
     for (int i = 0; i < gameModel.getHeigth(); i++) {
       for (int j = 0; j < gameModel.getWidth(); j++) {
         board[i][j] = new DotButton(j, i, 11);
-        board[i][j].addActionListener(gameController);
+        board[i][j].addMouseListener(gameController);
         grid.add(board[i][j]);
 
       }
@@ -64,12 +67,12 @@ public class GameView extends JFrame {
     // Create JButtons for reset and quit and addActionListener for each button
     JButton reset = new JButton("Reset");
     reset.setBackground(Color.WHITE);
-    reset.addActionListener(gameController);
+    reset.addMouseListener(gameController);
     bottom.add(reset);
 
     JButton quit = new JButton("Quit");
     quit.setBackground(Color.WHITE);
-    quit.addActionListener(gameController);
+    quit.addMouseListener(gameController);
     bottom.add(quit);
     add(bottom, BorderLayout.SOUTH);
 
@@ -92,7 +95,9 @@ public class GameView extends JFrame {
       for (int j = 0; j < gameModel.getWidth(); j++) {
 
         board[i][j].setIconNumber(getIcon(i, j));
-        nbreOfStepsLabel.setText("Number of steps: " + gameModel.getNumberOfSteps());
+        nbreOfStepsLabel.setText("Number of steps: " + gameModel.getNumberOfSteps() + ", ");
+        int difference = gameModel.getNumberOfMines() - gameModel.getNumberOfFlags();
+        differenceLabel.setText("Difference between Mines and Flag: " + difference);
 
       }
     }
@@ -110,7 +115,7 @@ public class GameView extends JFrame {
 
     int number;
 
-    if (gameModel.isCovered(i, j)) {
+    if (gameModel.isCovered(i, j) && !(gameModel.isFlagged(i, j))) {
 
       number = 11;
 
@@ -118,11 +123,16 @@ public class GameView extends JFrame {
 
       number = 10;
 
-    } else if (gameModel.isMined(i, j)) {
+    } else if (gameModel.isMined(i, j) && !(gameModel.isFlagged(i, j))) {
 
       number = 9;
 
-    } else {
+    } else if (gameModel.isCovered(i, j) && gameModel.isFlagged(i, j)) {
+
+      number = 12;
+    }
+
+    else {
 
       number = gameModel.getNeighbooringMines(i, j);
 

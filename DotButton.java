@@ -21,7 +21,6 @@ import javax.swing.border.Border;
  */
 
 public class DotButton extends JButton {
-
   /**
    * predefined values to capture icons of a DotInfo
    */

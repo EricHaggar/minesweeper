@@ -1,5 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.LinkedList;
 import javax.swing.*;
 
@@ -9,7 +11,7 @@ import javax.swing.*;
  * step of the game, and updates model and view.
  */
 
-public class GameController implements ActionListener {
+public class GameController implements MouseListener {
 
   private int width;
   private int height;
@@ -38,36 +40,70 @@ public class GameController implements ActionListener {
   }
 
   /**
-   * Callback used when the user clicks a button (reset or quit)
+   * Callback used when the user right clicks (flag or unflag)
    *
-   * @param e the ActionEvent
+   * @param e the MouseEvent
    */
 
-  // actionPerformed has different cases for when the different buttons on the GUI
-  // are pressed
+  public void mouseClicked(MouseEvent e) {
 
-  public void actionPerformed(ActionEvent e) {
+    if (SwingUtilities.isLeftMouseButton(e)) {
 
-    // ADD YOU CODE HERE
+      JButton source = (JButton) e.getSource();
 
-    if (e.getActionCommand().equals("Reset")) {
+      if (source.getActionCommand().equals("Reset")) {
 
-      reset();
+        reset();
 
-    } else if (e.getActionCommand().equals("Quit")) {
+      } else if (source.getActionCommand().equals("Quit")) {
 
-      System.exit(0);
+        System.exit(0);
 
-    } else {
+      } else {
+
+        DotButton tileSource = (DotButton) e.getSource();
+
+        int row = tileSource.getRow();
+        int column = tileSource.getColumn();
+
+        play(column, row);
+
+      }
+    }
+
+    if (SwingUtilities.isRightMouseButton(e)) {
 
       DotButton source = (DotButton) e.getSource();
+
       int row = source.getRow();
       int column = source.getColumn();
 
-      play(column, row);
+      if (gameModel.isFlagged(row, column) && gameModel.isCovered(row, column)) {
+
+        gameModel.unflag(row, column);
+
+      } else if (!(gameModel.isFlagged(row, column)) && gameModel.isCovered(row, column)) {
+
+        gameModel.flag(row, column);
+
+      }
 
     }
 
+    gameView.update();
+
+  }
+
+  public void mousePressed(MouseEvent e) {
+  }
+
+  public void mouseReleased(MouseEvent e) {
+  }
+
+  public void mouseEntered(MouseEvent e) {
+  }
+
+  public void mouseExited(MouseEvent e) {
   }
 
   /**
@@ -91,12 +127,11 @@ public class GameController implements ActionListener {
    * @param width  the selected column
    * @param heigth the selected line
    */
-
   private void play(int width, int heigth) {
 
     Object[] options = { "Quit", "Play Again" };
 
-    if (!(gameModel.hasBeenClicked(heigth, width))) {
+    if (!(gameModel.hasBeenClicked(heigth, width)) && !(gameModel.isFlagged(heigth, width))) {
 
       gameModel.click(heigth, width);
       gameModel.uncover(heigth, width);
@@ -114,6 +149,7 @@ public class GameController implements ActionListener {
         if (n == 0) {
 
           System.exit(0);
+
         } else {
 
           reset();
@@ -189,16 +225,14 @@ public class GameController implements ActionListener {
 
     stack.push(initialDot);
 
-    // The algorithm below uses the same logic to obtain the neighbooring mines in
-    // order to check if the we can clear the next tiles
-
     while (!(stack.isEmpty())) {
 
       DotInfo index = stack.pop();
 
       if (index.getX() - 1 >= 0) {
 
-        if (gameModel.get(index.getX() - 1, index.getY()).isCovered()) {
+        if (gameModel.get(index.getX() - 1, index.getY()).isCovered()
+            && !(gameModel.get(index.getX() - 1, index.getY()).isFlagged())) {
 
           gameModel.get(index.getX() - 1, index.getY()).uncover();
 
@@ -212,7 +246,8 @@ public class GameController implements ActionListener {
 
       if (index.getX() + 1 < gameModel.getHeigth()) {
 
-        if (gameModel.get(index.getX() + 1, index.getY()).isCovered()) {
+        if (gameModel.get(index.getX() + 1, index.getY()).isCovered()
+            && !(gameModel.get(index.getX() + 1, index.getY()).isFlagged())) {
 
           gameModel.get(index.getX() + 1, index.getY()).uncover();
 
@@ -226,7 +261,8 @@ public class GameController implements ActionListener {
 
       if (index.getY() - 1 >= 0) {
 
-        if (gameModel.get(index.getX(), index.getY() - 1).isCovered()) {
+        if (gameModel.get(index.getX(), index.getY() - 1).isCovered()
+            && !(gameModel.get(index.getX(), index.getY() - 1).isFlagged())) {
 
           gameModel.get(index.getX(), index.getY() - 1).uncover();
 
@@ -240,7 +276,8 @@ public class GameController implements ActionListener {
 
       if (index.getY() + 1 < gameModel.getWidth()) {
 
-        if (gameModel.get(index.getX(), index.getY() + 1).isCovered()) {
+        if (gameModel.get(index.getX(), index.getY() + 1).isCovered()
+            && !(gameModel.get(index.getX(), index.getY() + 1).isFlagged())) {
 
           gameModel.get(index.getX(), index.getY() + 1).uncover();
 
@@ -254,7 +291,8 @@ public class GameController implements ActionListener {
 
       if (index.getX() - 1 >= 0 && index.getY() - 1 >= 0) {
 
-        if (gameModel.get(index.getX() - 1, index.getY() - 1).isCovered()) {
+        if (gameModel.get(index.getX() - 1, index.getY() - 1).isCovered()
+            && !(gameModel.get(index.getX() - 1, index.getY() - 1).isFlagged())) {
 
           gameModel.get(index.getX() - 1, index.getY() - 1).uncover();
 
@@ -268,7 +306,8 @@ public class GameController implements ActionListener {
 
       if (index.getX() + 1 < gameModel.getHeigth() && index.getY() - 1 >= 0) {
 
-        if (gameModel.get(index.getX() + 1, index.getY() - 1).isCovered()) {
+        if (gameModel.get(index.getX() + 1, index.getY() - 1).isCovered()
+            && !(gameModel.get(index.getX() + 1, index.getY() - 1).isFlagged())) {
 
           gameModel.get(index.getX() + 1, index.getY() - 1).uncover();
 
@@ -282,7 +321,8 @@ public class GameController implements ActionListener {
 
       if (index.getX() - 1 >= 0 && index.getY() + 1 < gameModel.getWidth()) {
 
-        if (gameModel.get(index.getX() - 1, index.getY() + 1).isCovered()) {
+        if (gameModel.get(index.getX() - 1, index.getY() + 1).isCovered()
+            && !(gameModel.get(index.getX() - 1, index.getY() + 1).isFlagged())) {
 
           gameModel.get(index.getX() - 1, index.getY() + 1).uncover();
 
@@ -296,7 +336,8 @@ public class GameController implements ActionListener {
 
       if (index.getX() + 1 < gameModel.getHeigth() && index.getY() + 1 < gameModel.getWidth()) {
 
-        if (gameModel.get(index.getX() + 1, index.getY() + 1).isCovered()) {
+        if (gameModel.get(index.getX() + 1, index.getY() + 1).isCovered()
+            && !(gameModel.get(index.getX() + 1, index.getY() + 1).isFlagged())) {
 
           gameModel.get(index.getX() + 1, index.getY() + 1).uncover();
 
@@ -310,4 +351,14 @@ public class GameController implements ActionListener {
     }
   }
 
+  /**
+   * Getter for numberOfMines
+   *
+   * @return numberOfMines
+   */
+  public int getNumberOfMines() {
+
+    return numberOfMines;
+
+  }
 }

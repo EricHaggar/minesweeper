@@ -11,6 +11,7 @@ public class DotInfo {
   private boolean wasClicked;
   private int x;
   private int y;
+  private boolean flagged;
 
   /**
    * Constructor, used to initialize the instance variables
@@ -20,13 +21,13 @@ public class DotInfo {
    */
   public DotInfo(int x, int y) {
 
-    // initializing all instance variables
     this.x = x;
     this.y = y;
     covered = true;
     mined = false;
     neighbooringMines = 0;
     wasClicked = false;
+    flagged = false;
 
   }
 
@@ -112,6 +113,35 @@ public class DotInfo {
    */
   public int getNeighbooringMines() {
     return neighbooringMines;
+  }
+
+  /**
+   * Setter for flagged to set it to true
+   */
+  public void flag() {
+
+    flagged = true;
+
+  }
+
+  /**
+   * Setter for flagged to set it to false
+   */
+  public void unflag() {
+
+    flagged = false;
+
+  }
+
+  /**
+   * Getter for flagged
+   *
+   * @return flagged
+   */
+  public boolean isFlagged() {
+
+    return flagged;
+
   }
 
 }
