@@ -1,16 +1,7 @@
-//Student name: Eric Haggar
-//Student number: 7674509
-//Course code: ITI1521
-//Lab section: A-2
-
 /**
 * The class <b>Mineseeper</b> launches the game
-*
-* @author Guy-Vincent Jourdan, University of Ottawa
 */
 public class Minesweeper {
-
-  // ADD YOUR INSTANCE VARIABLES HERE
 
   static int DEFAULT_WIDTH = 20;
   static int DEFAULT_HEIGTH = 12;
