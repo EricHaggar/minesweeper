@@ -5,8 +5,8 @@ MineSweeper is an assignment completed in the Introduction to Computing II (ITI 
 The following images show the GUI created
 
 <p align="center">
-    <img src="screenshots/flags.JPG" width="500" /> 
-    <img src="screenshots/gameover.JPG" width="500" />
+    <img src="screenshots/flags.JPG" width="430" /> 
+    <img src="screenshots/gameover.JPG" width="430" />
 </p>
 
 
