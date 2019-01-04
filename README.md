@@ -1,6 +1,6 @@
 # MineSweeper
 
-MineSweeper is an assignment completed in the Introduction to Computing II (ITI 1521/1121) at the University of Ottawa. The purpose of this assignment was to familiarize ourselves with the **Model-View-Controller (MVC)** architectural pattern and **Stacks** while creating the famous [Minesweeper](https://en.wikipedia.org/wiki/Minesweeper_(video_game)) game.
+MineSweeper utilizes the **Model-View-Controller (MVC)** architectural pattern and **Stacks** data structure to create the famous [Minesweeper](https://en.wikipedia.org/wiki/Minesweeper_(video_game)) game.
 
 The following images show the GUI created
 
@@ -51,10 +51,6 @@ java MineSweeper
 * [javax.swing](https://docs.oracle.com/javase/7/docs/api/javax/swing/package-summary.html)
 
 ## More Information
-
-For more information on the assignment requirements, please see 
-
-* [Assignment Handout](https://github.com/EricHaggar/MineSweeper/blob/master/MineSweeper.pdf)
 
 Note: to generate the Java Documentation, enter the following on the command line:
 
