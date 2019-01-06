@@ -30,14 +30,14 @@ Make sure you have the Java SE Development Kit 8 or higher. If not install it fr
     https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html
 
 
-## Running the tests
+## Running The Game
 
 Open a terminal within the directory and compile the all java files using:
 
 ```
 javac *.java
 ```
-Run the test 
+Run the game 
 
 ```
 java MineSweeper
