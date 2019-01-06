@@ -1,6 +1,6 @@
 # MineSweeper
 
-MineSweeper utilizes the **Model-View-Controller (MVC)** architectural pattern and **Stacks** data structure to create the famous [Minesweeper](https://en.wikipedia.org/wiki/Minesweeper_(video_game)) game. The game is created using multiple Java GUI Frameworks (see screenshots below).
+MineSweeper utilizes the **Model-View-Controller (MVC)** architectural pattern and **Stacks** data structure to create the famous [Minesweeper](https://en.wikipedia.org/wiki/Minesweeper_(video_game)) game. The game is created using multiple Java GUI Frameworks.
 
 <p align="center">
     <img src="screenshots/flags.JPG" width="430" /> 
